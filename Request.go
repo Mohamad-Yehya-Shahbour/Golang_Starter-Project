@@ -52,3 +52,4 @@ func connectToDataBase() (*gorm.DB, *sql.DB) {
 func (req Request) closeConnection() {
 	req.Connection.Close()
 }
+

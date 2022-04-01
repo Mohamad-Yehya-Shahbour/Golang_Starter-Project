@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"net/http"
+	_"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -16,11 +16,11 @@ func main() {
 }
 
 func Posts(c *gin.Context) {
-	request := newRequest(c)
-	fmt.Println(request.Connection.Ping()) // to check connection status
-	request.closeConnection()
-	fmt.Println(request.Connection.Ping())
-	request.Context.JSON(http.StatusCreated, gin.H{
-		"msg": "post has been added",
-	})
+	r := newRequest(c)
+	// to check connection status
+	//fmt.Println(request.Connection.Ping()) 
+	r.NotAuth()
+	// r.Context.JSON(http.StatusCreated, gin.H{
+	// 	"msg": "post has been added",
+	// })
 }
