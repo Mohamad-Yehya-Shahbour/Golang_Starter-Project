@@ -1,4 +1,4 @@
-package main
+package Application
 
 import (
 	"github.com/gin-gonic/gin"
@@ -15,11 +15,17 @@ type Application struct {
 
 func (app *Application) Share(){}
 
-func app() func() Application {
+func App() func() Application {
 	return func() Application {
 		var application Application
 		application.Gin = gin.Default()
 		connectToDataBase(&application)
 		return application
 	}
+}
+
+func NewApp() Application {
+	app := App()
+	application := app()
+	return application
 }

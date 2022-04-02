@@ -1,11 +1,8 @@
-package main
+package Application
 
 import (
 	"database/sql"
-	
-
 	"github.com/gin-gonic/gin"
-	
 	"gorm.io/gorm"
 )
 
@@ -22,7 +19,7 @@ type Request struct {
 func (req *Request) Share(){}
 
 // handle request data
-func req() func(c *gin.Context) Request {
+func Req() func(c *gin.Context) Request {
 	return func(c *gin.Context) Request {
 		var request Request
 		request.Context = c
@@ -32,8 +29,8 @@ func req() func(c *gin.Context) Request {
 }
 
 // init new request
-func newRequest(c *gin.Context) Request {
-	request := req()
+func NewRequest(c *gin.Context) Request {
+	request := Req()
 	req := request(c)
 	return req
 }
