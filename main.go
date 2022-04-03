@@ -4,13 +4,17 @@ import (
 	"fmt"
 	_ "net/http"
 	"projects-template/Application"
-
+	"projects-template/Models"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	fmt.Println("hellooo")
 	app := Application.NewApp()
+	// migrate models
+	app.DB.AutoMigrate(&Models.User{})
+	// close conection
+	Application.CloseConnection(&app)
 	app.Gin.GET("/posts", Posts)
 	app.Gin.Run()
 }

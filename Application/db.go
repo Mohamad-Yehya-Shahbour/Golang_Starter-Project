@@ -43,7 +43,7 @@ func connectToDataBase(share shareResources) {
 	}
 }
 
-func closeConnection(share shareResources) {
+func CloseConnection(share shareResources) {
 	switch share.(type){
 	case *Application:
 		app := share.(*Application)
