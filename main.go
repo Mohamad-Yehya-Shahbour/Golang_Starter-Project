@@ -5,6 +5,8 @@ import (
 	_ "net/http"
 	"projects-template/Application"
 	"projects-template/Models"
+	"projects-template/Routes"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -13,9 +15,11 @@ func main() {
 	app := Application.NewApp()
 	// migrate models
 	app.DB.AutoMigrate(&Models.User{})
+	routerApp := Routes.RouterApp(&app)
+	routerApp.VisitorRoutes()
 	// close conection
 	Application.CloseConnection(&app)
-	app.Gin.GET("/posts", Posts)
+
 	app.Gin.Run()
 }
 
