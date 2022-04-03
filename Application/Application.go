@@ -8,9 +8,9 @@ import (
 )
 
 type Application struct {
-	Gin *gin.Engine
-	DB         *gorm.DB
-	Connection *sql.DB
+	Gin 		*gin.Engine
+	DB         	*gorm.DB
+	Connection 	*sql.DB
 }
 
 func (app *Application) Share(){}
