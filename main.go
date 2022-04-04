@@ -17,11 +17,11 @@ func main() {
 	app.DB.AutoMigrate(&Models.User{})
 
 	// add routes
-	routerApp := Routes.RouterApp{&app}
+	routerApp := Routes.RouterApp{app}
 	routerApp.Routing()
 
 	// close conection
-	Application.CloseConnection(&app)
+	Application.CloseConnection(app)
 	// start app server
 	app.Gin.Run()
 }

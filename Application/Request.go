@@ -24,23 +24,36 @@ type Request struct {
 func (req *Request) Share() {}
 
 // handle request data
-func Req() func(c *gin.Context) Request {
-	return func(c *gin.Context) Request {
+func Req() func(c *gin.Context) *Request {
+	return func(c *gin.Context) *Request {
 		var request Request
 		request.Context = c
 		connectToDataBase(&request)
-		return request
+		return &request
 	}
 }
 
 // init new request
-func NewRequest(c *gin.Context) Request {
+func NewRequest(c *gin.Context) *Request {
 	request := Req()
-	req := request(c)
-	return req
+	return request(c)
 }
 
-func (req Request) Auth() Request {
+func NewRequestWithAuth(c *gin.Context) *Request {
+	return NewRequest(c).Auth()
+}
+
+
+func AuthRequest(c *gin.Context) (*Request, bool) {
+	r := NewRequestWithAuth(c)
+	if !r.IsAdmin {
+		r.NotAuth()
+		return r, false
+	}
+	return r, true
+}
+
+func (req Request) Auth() *Request {
 	req.IsAuth = false
 	req.IsAdmin = false
 	authHeader := req.Context.GetHeader("Authorization")
@@ -53,5 +66,5 @@ func (req Request) Auth() Request {
 			}
 		}
 	}
-	return req
+	return &req
 }
