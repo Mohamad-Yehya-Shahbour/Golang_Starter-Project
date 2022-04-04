@@ -22,6 +22,6 @@ func main() {
 
 	// close conection
 	Application.CloseConnection(&app)
-
+	// start app server
 	app.Gin.Run()
 }

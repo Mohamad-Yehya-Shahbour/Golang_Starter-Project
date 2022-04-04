@@ -2,11 +2,13 @@ package Application
 
 import (
 	"database/sql"
+	"projects-template/Models"
+
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
 
-type shareResources interface{
+type shareResources interface {
 	Share()
 }
 
@@ -14,9 +16,12 @@ type Request struct {
 	Context    *gin.Context
 	DB         *gorm.DB
 	Connection *sql.DB
+	User       *Models.User
+	IsAuth     bool
+	IsAdmin	   bool
 }
 
-func (req *Request) Share(){}
+func (req *Request) Share() {}
 
 // handle request data
 func Req() func(c *gin.Context) Request {
@@ -35,4 +40,18 @@ func NewRequest(c *gin.Context) Request {
 	return req
 }
 
-
+func (req Request) Auth() Request {
+	req.IsAuth = false
+	req.IsAdmin = false
+	authHeader := req.Context.GetHeader("Authorization")
+	if authHeader != "" {
+		req.DB.Where("token = ? ", authHeader).First(&req.User)
+		if req.User.ID != 0 {
+			req.IsAuth = true
+			if req.User.Group == "admin"{
+				req.IsAdmin = true
+			}
+		}
+	}
+	return req
+}
