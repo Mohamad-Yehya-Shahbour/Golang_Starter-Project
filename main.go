@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	_"fmt"
 	_ "net/http"
 	"projects-template/Application"
 	"projects-template/Models"
@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	fmt.Println("hellooo")
+	
 	app := Application.NewApp()
 
 	// migrate models

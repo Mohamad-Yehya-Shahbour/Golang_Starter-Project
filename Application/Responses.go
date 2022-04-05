@@ -18,3 +18,8 @@ func (req Request) NotAuth() {
 		"message": "You are not authenticated",
 	})
 }
+
+func (req Request) BadRequest(err interface{}) {
+	CloseConnection(&req)
+	req.Context.JSON(422, err)
+}

@@ -1,10 +1,12 @@
 package Application
 
 import (
-	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
-	_"gorm.io/driver/mysql"
 	"database/sql"
+	"fmt"
+	"github.com/bykovme/gotrans"
+	"github.com/gin-gonic/gin"
+	_ "gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
 type Application struct {
@@ -20,6 +22,10 @@ func App() func() *Application {
 		var application Application
 		application.Gin = gin.Default()
 		connectToDataBase(&application)
+		err := gotrans.InitLocales("./Public/Lang")
+		if err != nil {
+			fmt.Println("Error while loading translation file", err.Error())
+		}
 		return &application
 	}
 }
